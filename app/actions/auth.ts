@@ -1,5 +1,6 @@
 "use server"
 
+import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import * as z from "zod"
 
@@ -46,11 +47,15 @@ export async function signup(
 
   const { fullName, email, password } = validated.data
   const supabase = await createClient()
+  const origin = (await headers()).get("origin")
 
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { full_name: fullName } },
+    options: {
+      data: { full_name: fullName },
+      emailRedirectTo: origin ? `${origin}/auth/confirm` : undefined,
+    },
   })
 
   if (error) {
@@ -84,6 +89,10 @@ export async function login(
 
   const supabase = await createClient()
   const { error } = await supabase.auth.signInWithPassword(validated.data)
+
+  if (error?.code === "email_not_confirmed") {
+    return { message: "Confirm your email first — check your inbox for the link." }
+  }
 
   if (error) {
     return { message: "Invalid email or password." }
