@@ -11,7 +11,8 @@ Stack: Next.js 16 (App Router, TypeScript) + Tailwind v4 + shadcn/ui, Supabase
 ## Status
 
 Phase 1 (Foundation) in progress: auth, roles, the three dashboard shells
-(Creator / Editor / Admin), and the `profiles` table with RLS. Campaigns,
+(Creator / Editor / Admin), the `profiles` table with RLS, and private
+storage buckets with signed upload/download helpers (`lib/storage/`). Campaigns,
 tickets, the shared editing queue, shifts, and earnings are later phases —
 see `docs/PRD.md` Section 15 for the full build order.
 
@@ -20,7 +21,8 @@ see `docs/PRD.md` Section 15 for the full build order.
 1. Create a Supabase project (or use an existing dev one).
 2. Copy `.env.local.example` to `.env.local` and fill in your project's URL
    and anon key (Supabase dashboard → Project Settings → API).
-3. Run `supabase/migrations/0001_init.sql` against your project — easiest
+3. Run the files in `supabase/migrations/` in order (`0001_init.sql`, then
+   `0002_storage.sql`) against your project — easiest
    via the Supabase dashboard's SQL Editor (the `supabase` CLI isn't set up
    on this machine yet; Xcode Command Line Tools need a manual update first
    if you want to install it via `brew install supabase/tap/supabase`).
