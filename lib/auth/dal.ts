@@ -4,7 +4,7 @@ import { cache } from "react"
 import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
-import type { Database, UserRole } from "@/lib/supabase/database.types"
+import type { Database } from "@/lib/supabase/database.types"
 
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"]
 
@@ -25,9 +25,7 @@ export const verifySession = cache(async () => {
 })
 
 /**
- * Loads the caller's profile row (role, account status, etc). This is the
- * source of truth for authorization checks — never trust a role passed
- * from the client.
+ * Loads the caller's profile row (display name, time zone, etc).
  */
 export const getProfile = cache(async (): Promise<Profile> => {
   const { userId } = await verifySession()
@@ -43,24 +41,5 @@ export const getProfile = cache(async (): Promise<Profile> => {
     redirect("/login")
   }
 
-  if (data.account_status === "suspended") {
-    redirect("/login?suspended=1")
-  }
-
   return data
 })
-
-/**
- * Gates a page/action to a single role. Redirects non-matching roles back
- * to their own dashboard rather than showing a 403, since every role has
- * a valid home to land on.
- */
-export async function requireRole(role: UserRole): Promise<Profile> {
-  const profile = await getProfile()
-
-  if (profile.role !== role) {
-    redirect(`/${profile.role}`)
-  }
-
-  return profile
-}

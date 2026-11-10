@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MAXXUGC",
-  description: "Tech UGC Creator Operating System",
+  title: "MaxxUGC",
+  description: "Free portfolio and earnings tools for UGC creators",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

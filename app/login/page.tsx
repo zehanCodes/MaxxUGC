@@ -4,9 +4,7 @@ import { LoginForm } from "@/components/auth/login-form"
 
 export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   const params = await searchParams
-  const notice = params.suspended
-    ? "This account is suspended. Contact support if you think that's a mistake."
-    : params.confirm_error
+  const notice = params.confirm_error
       ? "That confirmation link is invalid or expired. Log in to get a new one, or sign up again."
       : null
 
@@ -14,7 +12,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
     <div className="flex min-h-svh items-center justify-center p-6">
       <div className="w-full max-w-sm space-y-6">
         <div className="space-y-1 text-center">
-          <h1 className="text-2xl font-semibold">Log in to MAXXUGC</h1>
+          <h1 className="text-2xl font-semibold">Log in to MaxxUGC</h1>
           <p className="text-muted-foreground text-sm">
             Welcome back. Enter your details to continue.
           </p>

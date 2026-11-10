@@ -7,9 +7,9 @@ export default function SignupPage() {
     <div className="flex min-h-svh items-center justify-center p-6">
       <div className="w-full max-w-sm space-y-6">
         <div className="space-y-1 text-center">
-          <h1 className="text-2xl font-semibold">Create your creator account</h1>
+          <h1 className="text-2xl font-semibold">Create your MaxxUGC account</h1>
           <p className="text-muted-foreground text-sm">
-            Editor and admin accounts are set up separately.
+            Free for UGC creators.
           </p>
         </div>
         <SignupForm />

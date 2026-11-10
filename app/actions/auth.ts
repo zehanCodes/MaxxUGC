@@ -27,10 +27,6 @@ const SignupSchema = z.object({
     .regex(/[0-9]/, { error: "Include at least one number." }),
 })
 
-// Self-serve signup always creates a 'creator' account. Editor and admin
-// accounts are provisioned by an admin (profiles.role updated directly) —
-// an in-app invite flow is a Phase 2+ decision, not yet designed. See
-// docs/PRD.md Section 18.
 export async function signup(
   _state: AuthState,
   formData: FormData
