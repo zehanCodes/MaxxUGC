@@ -3,6 +3,7 @@ import "server-only"
 import { cache } from "react"
 import { redirect } from "next/navigation"
 
+import { LOGIN_PATH } from "@/lib/auth/paths"
 import { createClient } from "@/lib/supabase/server"
 import type { Database, UserRole } from "@/lib/supabase/database.types"
 
@@ -18,7 +19,7 @@ export const verifySession = cache(async () => {
   const { data, error } = await supabase.auth.getClaims()
 
   if (error || !data?.claims) {
-    redirect("/login")
+    redirect(LOGIN_PATH)
   }
 
   return { userId: data.claims.sub as string }

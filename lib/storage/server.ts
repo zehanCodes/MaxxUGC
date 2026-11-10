@@ -82,3 +82,35 @@ export async function createDownloadUrl(
 
   return data.signedUrl
 }
+
+// In-app previews outlive a download link so a video doesn't stop loading
+// mid-session; they're still scoped by RLS when issued.
+const PREVIEW_URL_TTL_SECONDS = 60 * 60
+
+/**
+ * Signed preview URLs for many objects in one round trip, keyed by path.
+ * Paths the caller can't read are simply missing from the result.
+ */
+export async function createPreviewUrls(
+  bucket: BucketId,
+  paths: string[]
+): Promise<Map<string, string>> {
+  if (paths.length === 0) return new Map()
+
+  await getProfile()
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .createSignedUrls(paths, PREVIEW_URL_TTL_SECONDS)
+
+  if (error || !data) {
+    throw new Error("Could not create preview URLs", { cause: error })
+  }
+
+  return new Map(
+    data.flatMap((entry) =>
+      entry.path && entry.signedUrl ? [[entry.path, entry.signedUrl] as const] : []
+    )
+  )
+}

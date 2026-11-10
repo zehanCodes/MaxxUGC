@@ -5,6 +5,7 @@
 export type UserRole = "creator" | "editor" | "admin"
 export type AccountStatus = "active" | "suspended"
 export type CampaignStatus = "active" | "paused" | "completed" | "archived"
+export type AssetType = "video" | "image"
 
 export interface Database {
   public: {
@@ -94,6 +95,65 @@ export interface Database {
             columns: ["creator_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_assets: {
+        Row: {
+          id: string
+          campaign_id: string
+          creator_id: string
+          uploaded_by: string
+          storage_path: string
+          filename: string
+          mime_type: string
+          asset_type: AssetType
+          size_bytes: number
+          folder: string | null
+          tags: string[]
+          archived_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          campaign_id: string
+          creator_id: string
+          uploaded_by: string
+          storage_path: string
+          filename: string
+          mime_type: string
+          asset_type: AssetType
+          size_bytes: number
+          folder?: string | null
+          tags?: string[]
+          archived_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          campaign_id?: string
+          creator_id?: string
+          uploaded_by?: string
+          storage_path?: string
+          filename?: string
+          mime_type?: string
+          asset_type?: AssetType
+          size_bytes?: number
+          folder?: string | null
+          tags?: string[]
+          archived_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_assets_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
         ]

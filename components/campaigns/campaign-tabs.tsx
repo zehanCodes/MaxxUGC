@@ -8,11 +8,11 @@ export function CampaignTabs({ campaignId }: { campaignId: string }) {
   const pathname = usePathname()
   const base = `/creator/campaigns/${campaignId}`
 
-  // Tickets, B-roll Library and Deliverables are the next Phase 2/3 pieces.
+  // Tickets and Deliverables are the next Phase 2/3 pieces.
   const tabs = [
     { label: "Overview", href: base },
     { label: "Tickets" },
-    { label: "B-roll Library" },
+    { label: "B-roll Library", href: `${base}/library` },
     { label: "Guidelines", href: `${base}/guidelines` },
     { label: "Deliverables" },
   ]
